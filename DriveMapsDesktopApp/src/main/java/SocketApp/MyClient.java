@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package WebSocket;
+package SocketApp;
 
 /**
  *
@@ -16,7 +16,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-
+ 
 @ClientEndpoint
 public class MyClient {
     @OnOpen
@@ -31,12 +31,10 @@ public class MyClient {
     @OnMessage
     public void onMessage(String message) {
         System.out.println(message);
-        //setCasa(message);
     }
  
     @OnError
     public void onError(Throwable t) {
         t.printStackTrace();
     }
-
 }
