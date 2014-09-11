@@ -23,7 +23,7 @@ public class App {
  
     public Session session;
  
-    protected void start()
+    public void start()
              {
  
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();

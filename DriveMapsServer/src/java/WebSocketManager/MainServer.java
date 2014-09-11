@@ -26,16 +26,25 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/DriveMapsServer/{client-id}")
 public class MainServer 
 {
-    private static Set<Session> _Players = Collections.synchronizedSet(new HashSet<Session>());
-    private Session _MySession;
-    @OnMessage
-    public void onMessage(String message) 
-    {
-        try 
-        {
-            System.out.println(message);
-            _MySession.getBasicRemote().sendText("Yo soy el server todo poderoso: " + message + message + "LOL");
-        } 
+
+        private static Set<Session> _Players = Collections.synchronizedSet(new HashSet<Session>());
+        private Session _MySession;
+        private static JsonDecodificator _DecodeJson = new JsonDecodificator();
+        @OnMessage
+        public void onMessage(String pMessage) 
+            {
+                try 
+                    {
+                        System.out.println(pMessage);
+            _MySession.getBasicRemote().sendText("Yo soy el server todo poderoso: " + pMessage + pMessage + "LOL");
+                        _DecodeJson.DecodeMessage(pMessage);
+                        String _DecodeTheMessage[] = new String[_DecodeJson.getParameters().length];
+                        _DecodeTheMessage = _DecodeJson.getParameters();
+                        int _TypeFunctionIdentication = _DecodeJson.getIDFunction();
+                        int _FunctionIdentication = _DecodeJson.getIDFunction();
+                        DistributeAction.Distribute(_TypeFunctionIdentication,_FunctionIdentication ,_DecodeTheMessage);
+                        _MySession.getBasicRemote().sendText(pMessage);
+                    } 
         catch (Exception ex) 
         {
             ex.printStackTrace();
@@ -51,6 +60,5 @@ public class MainServer
     @OnClose
     public void onClose(Session peer) {
         _Players.remove(peer);
-    }
-
+    }  
 }
