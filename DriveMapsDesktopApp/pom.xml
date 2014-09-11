@@ -3,11 +3,11 @@
     
   
     <groupId>com.mycompany</groupId>
-    <artifactId>DriveMapsBackoffice</artifactId>
+    <artifactId>DriveMapsDesktopApp</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 	<modelVersion>4.0.0</modelVersion>
-    <name>DriveMapsBackoffice</name>
+    <name>DriveMapsDesktopApp</name>
 	
 
     <repositories>
@@ -62,7 +62,7 @@
                 </execution>
             </executions>
             <configuration>
-        	<mainClass>WebSocket.App</mainClass>
+        	<mainClass>SocketApp.App</mainClass>
             </configuration>
      	</plugin>
     </plugins>
