@@ -12,6 +12,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 package WebSocketManager;
+import CommonClasses.MessageMain;
+import CommonClasses.Message;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,21 +31,20 @@ public class MainServer
 
         private static Set<Session> _Players = Collections.synchronizedSet(new HashSet<Session>());
         private Session _MySession;
-        private static JsonDecodificator _DecodeJson = new JsonDecodificator();
+        private MessageMain _DecodeJson = new MessageMain();
         @OnMessage
         public void onMessage(String pMessage) 
             {
                 try 
                     {
                         System.out.println(pMessage);
-            _MySession.getBasicRemote().sendText("Yo soy el server todo poderoso: " + pMessage + pMessage + "LOL");
-                        _DecodeJson.DecodeMessage(pMessage);
-                        String _DecodeTheMessage[] = new String[_DecodeJson.getParameters().length];
-                        _DecodeTheMessage = _DecodeJson.getParameters();
-                        int _TypeFunctionIdentication = _DecodeJson.getIDFunction();
-                        int _FunctionIdentication = _DecodeJson.getIDFunction();
-                        DistributeAction.Distribute(_TypeFunctionIdentication,_FunctionIdentication ,_DecodeTheMessage);
-                        _MySession.getBasicRemote().sendText(pMessage);
+                        Message _MessageReturn = this._DecodeJson.decodeMessage(pMessage);
+                        int _TypeFunctionIdentication = Integer.parseInt(_MessageReturn.getTypeFunction());
+                        int _FunctionIdentication = Integer.parseInt(_MessageReturn.getFunction());
+                        String[] _Parameters = _MessageReturn.getParameters();
+                        DistributeAction.Distribute(_TypeFunctionIdentication,_FunctionIdentication ,_Parameters,_MessageReturn);
+                        String _MessageAnswer = this._DecodeJson.codeMessage(_MessageReturn.getTypeFunction(),_MessageReturn.getFunction(), _MessageReturn.getParameters());
+                        _MySession.getBasicRemote().sendText(_MessageAnswer);
                     } 
         catch (Exception ex) 
         {

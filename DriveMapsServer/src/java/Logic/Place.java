@@ -18,7 +18,7 @@ import com.mongodb.DBCursor;
 import MongoDataAccess.DataAccess;
 import CommonClasses.Message;
 
-public class GlobalRanking {
+public class Place {
 
     public DataAccess _MongoData = new DataAccess("Administrator");
     public void CreateAdministrator(String pUser, String pPassword, Message pRespuesta)

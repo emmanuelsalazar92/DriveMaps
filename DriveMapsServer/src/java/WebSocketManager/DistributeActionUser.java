@@ -1,32 +1,40 @@
-
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // Instituto Tecnologico de Costa Rica
 // Escuela de Ingenieria en Computacion 
-// Componenetes en Comunicaciones en Internet
+// Componentes en Comunicaciones en Internet
 // Profesor Rodrigo Nuñez Nuñez
-// Alumnos:
-//      Cesar Peralta
-//      Emmanuel Salazar
-// BackEnd Primer Proyecto.
-
+//
+// Alumnos: 
+//          Emmanuel Salazar
+//          Cesar Peralta
+//
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 package WebSocketManager;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;import Logic.*;
+import java.util.Set;
+import Logic.Administrator;
+import CommonClasses.Message;
+
 
 public class DistributeActionUser
     {
         // This class distribute the message with the respective function or method
-        public static void DistributeUser ( int pIDInstrucction, String[] pContent ) 
+        public static void Distribute ( int pIDInstrucction, String[] pContent , Message _MessageReturn) 
             {
+                Administrator _LogicAdministrator = new Administrator();
                 int _FunctionID = pIDInstrucction;
                 switch(_FunctionID) 
                     {
-                        case 1: User.getDeleteAccount(pContent[0]);//
+                        case 1: _LogicAdministrator.ReadAdministrator(pContent[0], pContent[1], _MessageReturn);
+                            break; 
+                        case 2: _LogicAdministrator.CreateAdministrator(pContent[0], pContent[1], _MessageReturn);
                             break;
-                        case 2: User.saveRanking(pContent[0], pContent[0]);//
-                            break;                             
-                        default: System.out.println("Error... Distribute Action User");//
+                        default: System.out.println("Error... Distribute Action User");
                             break;
                     }
             }

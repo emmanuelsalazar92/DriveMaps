@@ -1,87 +1,113 @@
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // Instituto Tecnologico de Costa Rica
 // Escuela de Ingenieria en Computacion 
-// Componenetes en Comunicaciones en Internet
+// Componentes en Comunicaciones en Internet
 // Profesor Rodrigo Nuñez Nuñez
-// Alumnos:
-//      Cesar Peralta
-//      Emmanuel Salazar
-// BackEnd Primer Proyecto.
-
+//
+// Alumnos: 
+//          Emmanuel Salazar
+//          Cesar Peralta
+//
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 package Logic;
-import MongoDataAccess.AreaDataAccess;
-import MongoDataAccess.ItemDataAccess;
-import java.io.*;
-import java.util.*;
-import java.util.ArrayList;
-import org.bson.types.ObjectId;
 
-//Area							// area puede ser San Jose, Cartago, Costa Rica... etc
-//{
-//AreaID: <AreaID>,
-//Name: <Name>,
-//Users: 
-//	[ {
-//		User: <UserID>
-//	} ],
-//Ranking:						 
-//	[ {
-// 		User: <UserID>,
-//		Points: <Points>
-//	} ]
-//}
+import CommonClasses.Message;
+import MongoDataAccess.DataAccess;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 public class Area {
-    
-    	private ObjectId _Id;
-	private static String _Name;
-	private ObjectId[] _UserId;
-	private ObjectId[] _Ranking;
-	
-	public ObjectId getId() {
-		return _Id;
-	}
-	public void setId(ObjectId id) {
-		_Id = id;
-	}
-	public String getName() {
-		return _Name;
-	}
-	public void setName(String name) {
-		_Name = name;
-	}
-	public ObjectId[] getUserId() {
-		return _UserId;
-	}
-	public void setUserId(ObjectId[] userId) {
-		_UserId = userId;
-	}
-	public ObjectId[] getRanking() {
-		return _Ranking;
-	}
-	public void setRanking(ObjectId[] ranking) {
-		_Ranking = ranking;
-	}
 
-   public static void createArea(String pName)
-   {
-        AreaDataAccess _Item = new AreaDataAccess();
-        ObjectId _Insert = _Item.InsertArea(pName);
-        if (_Insert.equals(null)){
-            System.out.println("Error al ingresar el Area");
-        }else{
-            System.out.println("Area ID: " + _Insert);
+    public DataAccess _MongoData = new DataAccess("Area");
+    public void CreateArea(String pArea,  Message pRespuesta)
+    {
+        try
+        {
+        BasicDBObject _DBObject = new BasicDBObject();
+        _DBObject.put("Name",pArea);
+        _DBObject.put("Users",new String[]{});
+        _DBObject.put("Ranking",new String[]{});
+        _MongoData.getDBCollection().insert(_DBObject);
+        pRespuesta.setParameters(new String[] {"GOOD"});
         }
-       
-   }
-   public static ArrayList<String> getNearbyPlayers(String pUserID)
-   {
-        int _UserID = Integer.parseInt(pUserID);
-        ArrayList<String> _NearbyPlayers = new ArrayList<String>();
-        // Call the Mongo Data Access
-        return _NearbyPlayers;       
-   }
-   public static void deleteArea(String pAreaID)
-   {
-        //int _AreaID = Integer.parseInt(pAreaID);
-       // Call de Mongo Data Access
-   }
+        catch (Exception pInsertException) 
+        {
+            pInsertException.printStackTrace();
+            pRespuesta.setParameters(new String[] {"ERROR"});
+        } 
+    }  
+    
+    public void ReadArea(String pArea,Message pRespuesta)
+    {
+        int _NumberOfEquals = 0;
+        try
+        {
+        BasicDBObject _DBObject = new BasicDBObject();            
+        DBCursor _Cursor = _MongoData.getDBCollection().find(); 
+        String _Array[] = new String[_Cursor.length()];
+        int _Counter = 0;
+        while (_Cursor.hasNext()) 
+            { 
+                _NumberOfEquals++;
+                _Array[_Counter] = _Cursor.next().toString();
+            }
+        pRespuesta.setParameters(_Array);
+        }
+        catch (Exception pInsertException) 
+        {
+            pInsertException.printStackTrace();
+            pRespuesta.setParameters(new String[] {"ERROR"});
+        }
+        
+    } 
+    public void UpdateAreaUsers(String pArea,String[] pUsers,Message pRespuesta)
+    {
+        try
+        {
+      
+        BasicDBObject _DBObject = new BasicDBObject();       
+        _DBObject.put("Name", pArea);      
+        DBCursor _Cursor = _MongoData.getDBCollection().find(_DBObject); 
+        if(_Cursor.hasNext())
+        {
+            DBObject _NewUsers = _Cursor.next();
+            _NewUsers.put("Users", pUsers);
+            _MongoData.getDBCollection().save(_NewUsers);
+        }
+        pRespuesta.setParameters(new String[] {"GOOD"});
+        }
+        catch (Exception pInsertException) 
+        {
+            pInsertException.printStackTrace();
+            pRespuesta.setParameters(new String[] {"ERROR"});
+        }
+        
+    }
+    public void UpdateAreaRanking(String pArea,String[] pRanking,Message pRespuesta)
+    {
+        try
+        {
+      
+        BasicDBObject _DBObject = new BasicDBObject();       
+        _DBObject.put("Name", pArea);      
+        DBCursor _Cursor = _MongoData.getDBCollection().find(_DBObject); 
+        if(_Cursor.hasNext())
+        {
+            DBObject _NewUsers = _Cursor.next();
+            _NewUsers.put("Ranking", pRanking);
+            _MongoData.getDBCollection().save(_NewUsers);
+        }
+        pRespuesta.setParameters(new String[] {"GOOD"});
+        }
+        catch (Exception pInsertException) 
+        {
+            pInsertException.printStackTrace();
+            pRespuesta.setParameters(new String[] {"ERROR"});
+        }
+        
+    }    
+   
 }
