@@ -22,12 +22,13 @@ import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
-import ViewApp.*; 
+//import ViewApp.*; 
+import SocketApp.Client;
 public class WebSocket 
 {
  
-    public Session _StartScren;
-    public Session _MainScrenSesion;
+    //public Session _StartScren;
+    public Session _MainScreenSesion;
  
     public void start()
              {
@@ -38,8 +39,10 @@ public class WebSocket
             System.out.println("Connecting to " + uri);
             try {
                 
-                _StartScren = container.connectToServer(StartScreen.class, URI.create(uri));
-                _MainScrenSesion = container.connectToServer(MainScreen.class, URI.create(uri));
+                //_StartScren = container.connectToServer(StartScreen.class, URI.create(uri));
+
+                _MainScreenSesion  = container.connectToServer(Client.class, URI.create(uri));
+                //_MainScrenSesion = container.connectToServer(, URI.create(uri));
             } catch (DeploymentException e) {
                 e.printStackTrace();
             } catch (IOException e) {

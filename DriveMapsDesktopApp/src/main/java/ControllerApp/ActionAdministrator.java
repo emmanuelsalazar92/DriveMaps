@@ -18,37 +18,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ActionAdministrator {
-    public void Distribute ( int pIDInstrucction, String[] pContent) 
+    public void Distribute ( int pIDInstrucction, String[] pContent,StartScreen pGUIStart,MainScreen pGUIMain) 
         {
             int _FunctionID = pIDInstrucction;
             switch(_FunctionID) 
                 {
                     case 1: 
-                        ReceivedReadAdministrator(pContent[0]);
+                        ReceivedReadAdministrator(pContent[0],pGUIStart,pGUIMain);
                         break; 
                     case 2: 
-                        ReceivedCreateAdministrator(pContent[0]);
+                        ReceivedCreateAdministrator(pContent[0],pGUIStart);
                         break;
                     default: System.out.println("Error... Distribute Action Area");
                         break;
                 }
         }
-   public void ReceivedReadAdministrator(String pStatus)
+   public void ReceivedReadAdministrator(String pStatus,StartScreen pGUIStart,MainScreen pGUIMain)
    {
         if(pStatus.equals("GOOD"))
         {
-            MainScreen _Main = new MainScreen();
-            _Main.setVisible(true);
+            pGUIMain.setVisible(true);
+            pGUIStart.setVisible(false);
         }
         else
         {
-            StartScreen _Start  = new StartScreen();
-            _Start.setLblError(true);
-            _Start.setVisible(true);
-        }
+            pGUIStart.setLblError(true);
+        } 
    }
-   public void ReceivedCreateAdministrator(String pStatus)
+   public void ReceivedCreateAdministrator(String pStatus,StartScreen pGUI)
    {
-       
+     
    }   
 }

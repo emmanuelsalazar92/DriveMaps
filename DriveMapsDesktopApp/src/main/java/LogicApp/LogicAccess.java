@@ -19,6 +19,7 @@ import CommonClassesApp.Message;
 import SocketApp.WebSocket;
 import java.io.IOException;
 import ControllerApp.EventController;
+import ViewApp.StartScreen;
 
 
 public class LogicAccess {
@@ -36,7 +37,7 @@ public class LogicAccess {
             MessageMain _Message = new MessageMain();
             String _JSONMessage = _Message.codeMessage(pType, pFunction, pParameters);
             System.out.println(_JSONMessage);
-            _Client._StartScren.getBasicRemote().sendText(_JSONMessage);
+            _Client._MainScreenSesion.getBasicRemote().sendText(_JSONMessage);
            
 
         } catch (IOException e) 
@@ -52,7 +53,7 @@ public class LogicAccess {
             MessageMain _Message = new MessageMain();
             String _JSONMessage = _Message.codeMessage(pType, pFunction, pParameters);
             System.out.println(_JSONMessage);
-            _Client._MainScrenSesion.getBasicRemote().sendText(_JSONMessage);
+            _Client._MainScreenSesion.getBasicRemote().sendText(_JSONMessage);
            
 
         } catch (IOException e) 

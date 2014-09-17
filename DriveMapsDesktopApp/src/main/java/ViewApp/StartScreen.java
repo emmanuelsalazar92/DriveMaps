@@ -14,42 +14,28 @@
 
 package ViewApp;
 import CommonClassesApp.MessageMain;
+import ControllerApp.EventController;
+import LogicApp.LogicAccess;
 import SocketApp.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import javax.websocket.ClientEndpoint;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
-import ControllerApp.EventController;
-import LogicApp.LogicAccess;
-import javax.websocket.ClientEndpoint;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-@ClientEndpoint
-public class StartScreen extends javax.swing.JFrame {
-    EventController _Controller = new EventController();
-    @OnOpen
-    public void onOpen(Session pSession) 
-    {
-        System.out.println("Connected to endpoint: " + pSession.getBasicRemote());
-    }
- 
-    @OnMessage
-    public void onMessage(String pMessage) 
-    {
-        _Controller.GetMessage(pMessage);
-    }
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 
-    @OnError
-    public void onError(Throwable pTrace) 
-    {
-        pTrace.printStackTrace();
-    }
+public class StartScreen extends javax.swing.JFrame {
+    
+
     
     public StartScreen() {
         initComponents();
@@ -134,43 +120,14 @@ public class StartScreen extends javax.swing.JFrame {
 
     private void _BtnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__BtnSignUpActionPerformed
         // TODO add your handling code here:
+        EventController _Controller = new EventController();
         _Controller.StartScreenController(evt, this);
-        this.setVisible(false);
+        //this.setVisible(false);
 
 
     }//GEN-LAST:event__BtnSignUpActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StartScreen().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _BtnSignUp;
